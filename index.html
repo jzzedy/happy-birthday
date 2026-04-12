@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Happy Birthday Baby 🎂</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #e8637a;
+    --blush: #f5b8c4;
+    --cream: #fff5f7;
+    --gold: #d4a84b;
+    --deep: #8b2a42;
+    --soft: #fce8ec;
+    --text: #5a2030;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    width: 100%; min-height: 100vh;
+    background: var(--cream);
+    font-family: 'Lora', serif;
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── SPLASH ── */
+  #splash {
+    position: fixed; inset: 0; z-index: 100;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: linear-gradient(160deg, #fce8ec 0%, #f9d0d8 50%, #f5b8c4 100%);
+    cursor: pointer;
+    transition: opacity .8s ease, transform .8s ease;
+  }
+  #splash.hide { opacity: 0; transform: scale(1.08); pointer-events: none; }
+
+  .splash-flower {
+    font-size: 90px;
+    animation: floatBounce 2.2s ease-in-out infinite;
+    filter: drop-shadow(0 8px 24px rgba(232,99,122,.35));
+    margin-bottom: 18px;
+  }
+  .splash-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.6rem;
+    color: var(--deep);
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 12px rgba(232,99,122,.25);
+  }
+  .splash-sub {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: .95rem;
+    color: var(--rose);
+    letter-spacing: .04em;
+  }
+  .tap-hint {
+    margin-top: 40px;
+    font-size: .8rem;
+    color: #c0607a;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  .hearts-bg {
+    position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+  }
+  .h-float {
+    position: absolute;
+    font-size: 1.4rem;
+    opacity: .18;
+    animation: floatUp linear infinite;
+  }
+
+  /* ── MAIN PAGE ── */
+  #main {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .8s ease .2s, transform .8s ease .2s;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+  #main.show { opacity: 1; transform: translateY(0); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    background: linear-gradient(170deg, #fce8ec 0%, #f5b8c4 100%);
+    padding: 60px 24px 50px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 60% 20%, rgba(255,255,255,.45) 0%, transparent 70%);
+  }
+  .hero-age {
+    display: inline-block;
+    font-family: 'Dancing Script', cursive;
+    font-size: 9rem;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--rose);
+    letter-spacing: -4px;
+    opacity: .15;
+    position: absolute;
+    top: 10px; left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero-emoji { font-size: 4rem; margin-bottom: 12px; display: block; animation: floatBounce 3s ease-in-out infinite; }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: var(--deep);
+    line-height: 1.25;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 8px rgba(139,42,66,.12);
+    position: relative;
+  }
+  .hero-subtitle {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: var(--rose);
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: white;
+    border: 1.5px solid #f5b8c4;
+    border-radius: 999px;
+    padding: 6px 16px;
+    font-size: .8rem;
+    color: var(--rose);
+    letter-spacing: .06em;
+    font-style: italic;
+    box-shadow: 0 4px 16px rgba(232,99,122,.12);
+    position: relative;
+  }
+
+  /* CONFETTI STRIP */
+  .confetti-strip {
+    display: flex; gap: 0;
+    overflow: hidden;
+    height: 8px;
+  }
+  .confetti-strip span {
+    flex: 1; height: 8px;
+  }
+
+  /* SECTION */
+  .section { padding: 32px 22px; }
+  .section-label {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.1rem;
+    color: var(--blush);
+    letter-spacing: .08em;
+    margin-bottom: 6px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 18px;
+  }
+
+  /* LETTER CARD */
+  .letter-card {
+    background: white;
+    border-radius: 24px;
+    padding: 28px 24px;
+    box-shadow: 0 8px 40px rgba(232,99,122,.12), 0 1px 0 rgba(255,255,255,.8) inset;
+    border: 1px solid rgba(245,184,196,.4);
+    position: relative;
+    overflow: hidden;
+  }
+  .letter-card::before {
+    content: '❝';
+    position: absolute; top: 12px; left: 16px;
+    font-size: 3rem; color: #f5b8c4; opacity: .4;
+    font-family: serif; line-height: 1;
+  }
+  .letter-text {
+    font-family: 'Lora', serif;
+    font-size: .97rem;
+    line-height: 1.85;
+    color: #6b3040;
+    padding-top: 20px;
+  }
+  .letter-text em {
+    font-style: italic;
+    color: var(--rose);
+    font-weight: 500;
+  }
+  .letter-sig {
+    margin-top: 22px;
+    text-align: right;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.6rem;
+    color: var(--deep);
+  }
+
+  /* HEARTS COUNTER */
+  .hearts-section {
+    background: linear-gradient(135deg, #fff5f7, #fce8ec);
+    border-radius: 24px;
+    padding: 28px 22px;
+    text-align: center;
+    border: 1px solid rgba(245,184,196,.5);
+    margin: 0 22px;
+  }
+  .months-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: var(--rose);
+    line-height: 1;
+    text-shadow: 0 4px 20px rgba(232,99,122,.25);
+  }
+  .months-label {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.3rem;
+    color: var(--deep);
+    margin-top: 4px;
+  }
+  .months-sub {
+    font-size: .82rem;
+    color: #b07080;
+    font-style: italic;
+    margin-top: 6px;
+  }
+  .heart-row {
+    display: flex; justify-content: center; gap: 6px;
+    margin-top: 16px; flex-wrap: wrap;
+  }
+  .heart-item {
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: transform .2s, filter .2s;
+    animation: heartPop .5s ease backwards;
+    display: inline-block;
+  }
+  .heart-item:hover, .heart-item.popped {
+    transform: scale(1.5) rotate(-10deg);
+    filter: drop-shadow(0 4px 8px rgba(232,99,122,.5));
+  }
+
+  /* WISHES */
+  .wishes-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  .wish-card {
+    background: white;
+    border-radius: 20px;
+    padding: 18px 14px;
+    text-align: center;
+    border: 1px solid rgba(245,184,196,.4);
+    box-shadow: 0 4px 16px rgba(232,99,122,.08);
+    transition: transform .25s, box-shadow .25s;
+    cursor: default;
+  }
+  .wish-card:active { transform: scale(.97); }
+  .wish-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(232,99,122,.18); }
+  .wish-icon { font-size: 2rem; margin-bottom: 8px; }
+  .wish-text {
+    font-family: 'Lora', serif;
+    font-size: .8rem;
+    color: #7a3a4a;
+    line-height: 1.5;
+  }
+  .wish-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.05rem;
+    color: var(--deep);
+    margin-bottom: 4px;
+  }
+
+  /* PROMISE */
+  .promise-card {
+    background: linear-gradient(145deg, #8b2a42, #c04060);
+    border-radius: 24px;
+    padding: 28px 24px;
+    margin: 0 22px;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(139,42,66,.35);
+    position: relative; overflow: hidden;
+  }
+  .promise-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.06);
+  }
+  .promise-card::after {
+    content: '';
+    position: absolute;
+    bottom: -30px; left: -30px;
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.05);
+  }
+  .promise-icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .promise-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: #ffe0e8;
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+  .promise-text {
+    font-family: 'Lora', serif;
+    font-size: .9rem;
+    color: rgba(255,235,240,.85);
+    line-height: 1.8;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 40px 24px 20px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: var(--rose);
+  }
+  .footer-hearts { font-size: 1.3rem; animation: heartBeat 1.2s ease-in-out infinite; display: inline-block; }
+
+  /* FLOATING PETALS */
+  .petal-container { position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+  .petal {
+    position: absolute; top: -20px;
+    font-size: 1.1rem; opacity: .7;
+    animation: petalFall linear infinite;
+  }
+
+  /* SPARKLE ON TAP */
+  .sparkle-burst {
+    position: fixed; pointer-events: none; z-index: 200;
+    font-size: 1.2rem;
+    animation: sparkleOut .7s ease forwards;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes floatBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: .15; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: .5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+  @keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.3); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.2); }
+    60% { transform: scale(1); }
+  }
+  @keyframes heartPop {
+    0% { transform: scale(0); opacity: 0; }
+    80% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes petalFall {
+    0% { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: .7; }
+    50% { transform: translateY(50vh) rotate(180deg) translateX(30px); }
+    100% { transform: translateY(110vh) rotate(360deg) translateX(-20px); opacity: 0; }
+  }
+  @keyframes sparkleOut {
+    0% { transform: scale(0) translate(-50%, -50%); opacity: 1; }
+    60% { transform: scale(1.8) translate(-50%, -50%); opacity: .8; }
+    100% { transform: scale(2.5) translate(-50%, -50%); opacity: 0; }
+  }
+  @keyframes ribbonWave {
+    0%, 100% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+  }
+
+  /* RIBBON */
+  .ribbon {
+    position: absolute; top: 18px; right: -8px;
+    background: var(--gold);
+    color: white;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    padding: 5px 18px 5px 12px;
+    clip-path: polygon(0 0, 100% 0, 88% 50%, 100% 100%, 0 100%);
+    animation: ribbonWave 2s ease-in-out infinite;
+    font-family: 'Lora', serif;
+    font-style: italic;
+    box-shadow: 0 3px 10px rgba(212,168,75,.4);
+  }
+
+  /* scroll fade-in */
+  .fade-in-up {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* GLITTER */
+  .glitter-text {
+    background: linear-gradient(90deg, var(--deep), var(--rose), var(--gold), var(--rose), var(--deep));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+  }
+  @keyframes shimmer {
+    to { background-position: 200% center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="hearts-bg" id="splashBg"></div>
+  <div class="splash-flower">🌸</div>
+  <div class="splash-title">A little something<br>just for you 💌</div>
+  <div class="splash-sub">from the one who loves you most</div>
+  <div class="tap-hint">✦ tap to open ✦</div>
+</div>
+
+<!-- PETAL RAIN -->
+<div class="petal-container" id="petalContainer"></div>
+
+<!-- MAIN -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-age">29</div>
+    <span class="hero-emoji">🎂</span>
+    <h1 class="hero-title glitter-text">Happy Birthday,<br>My Love</h1>
+    <p class="hero-subtitle">Finally 29! 🌹</p>
+    <span class="badge">🎀 &nbsp;For You &amp; Only You&nbsp; 🎀</span>
+  </div>
+
+  <!-- CONFETTI STRIP -->
+  <div class="confetti-strip" id="confettiStrip"></div>
+
+  <!-- LETTER -->
+  <div class="section fade-in-up">
+    <div class="section-label">✦ A letter from the heart</div>
+    <div class="section-title">My Message to You 💌</div>
+    <div class="letter-card" style="position:relative">
+      <div class="ribbon">For You ♥</div>
+      <p class="letter-text" id="letterText"></p>
+      <div class="letter-sig">— Your Zed 🌹</div>
+    </div>
+  </div>
+
+  <!-- MONTHS TOGETHER -->
+  <div class="hearts-section fade-in-up">
+    <div class="section-label" style="text-align:center">✦ us ✦</div>
+    <div class="months-num">7</div>
+    <div class="months-label">Months Together 💕</div>
+    <div class="months-sub">and counting forever~</div>
+    <div class="heart-row" id="heartRow"></div>
+  </div>
+
+  <!-- WISHES -->
+  <div class="section fade-in-up">
+    <div class="section-label">✦ From me to you</div>
+    <div class="section-title">Birthday Wishes 🌟</div>
+    <div class="wishes-grid" id="wishesGrid"></div>
+  </div>
+
+  <!-- PROMISE -->
+  <div class="promise-card fade-in-up">
+    <div class="promise-icon">🤝</div>
+    <div class="promise-title">My Promise to You</div>
+    <p class="promise-text">
+      Whatever you go through —<br>
+      good days, hard days, all the days in between —<br>
+      <em style="color:#ffd0dc;font-style:italic">I will be right there.</em><br><br>
+      Sasamahan kita. Always. 🌙
+    </p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-hearts">💗</div><br>
+    I love you so much, baby.<br>
+    <span style="font-size:1.1rem;color:#c04060">Happy 29th Birthday 🎉</span>
+  </div>
+
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────
+const MESSAGE = `Happy Birthday baby, alam ko na busy day ang birthday mo pero babawi na lang ako sayo sa Sabado by being by your side.
+
+At pag gising mo sa umaga may gift na ako sayo — para at least di totally BUSY day yung birthday mo. 🎁
+
+Gusto ko rin i-take this time to thank you for being with me for 7 months na. Wish ko lang sayo is sana you'll have a good future ahead of you and good health along the way.
+
+Dont worry po — sasamahan kita sa lahat ng pagdadaanan mo, whether it could be bad or good. I will be there.
+
+I want to be the first na bumati sayo bago matabunan ng greetings.
+
+I love you so much. I will be here for you lagi. 🌹`;
+
+const WISHES = [
+  { icon: "✨", title: "Good Health", text: "Laging malusog at maayos ang katawan mo" },
+  { icon: "🌟", title: "Bright Future", text: "Tagumpay sa lahat ng iyong pangarap" },
+  { icon: "😊", title: "Happiness", text: "Puno ng ngiti ang bawat araw mo" },
+  { icon: "💪", title: "Strength", text: "Lakas para harapin lahat ng pagsubok" },
+  { icon: "🍀", title: "Good Luck", text: "Swerte sa lahat ng iyong gagawin" },
+  { icon: "💕", title: "Love", text: "Palagi kang mahal, kahit saan, kahit kailan" },
+];
+
+const CONFETTI_COLORS = ['#e8637a','#f5b8c4','#d4a84b','#8b2a42','#f9d0d8','#c04060','#fce8ec'];
+const PETALS = ['🌸','🌺','💮','🌷','❀'];
+const SPLASH_HEARTS = ['💗','💕','🌸','✨','💝','🌹','💓'];
+
+// ── SPLASH BACKGROUND ──────────────────────────────────
+(function buildSplashBg() {
+  const bg = document.getElementById('splashBg');
+  for (let i = 0; i < 20; i++) {
+    const s = document.createElement('span');
+    s.className = 'h-float';
+    s.textContent = SPLASH_HEARTS[i % SPLASH_HEARTS.length];
+    s.style.cssText = `left:${Math.random()*100}%;animation-duration:${4+Math.random()*6}s;animation-delay:${-Math.random()*8}s;font-size:${.9+Math.random()*1.2}rem`;
+    bg.appendChild(s);
+  }
+})();
+
+// ── CONFETTI STRIP ──────────────────────────────────────
+(function buildStrip() {
+  const strip = document.getElementById('confettiStrip');
+  for (let i = 0; i < 30; i++) {
+    const s = document.createElement('span');
+    s.style.background = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
+    strip.appendChild(s);
+  }
+})();
+
+// ── LETTER TEXT (typed effect) ──────────────────────────
+function typeMessage(el, text) {
+  let i = 0;
+  el.innerHTML = '';
+  const paragraphs = text.split('\n\n');
+  let pIdx = 0, cIdx = 0;
+  const p = document.createElement('p');
+  p.style.cssText = 'margin-bottom:14px';
+  el.appendChild(p);
+
+  const flat = text.replace(/\n\n/g, '\n\n');
+  const chars = flat.split('');
+  let html = '';
+
+  function tick() {
+    if (i >= chars.length) return;
+    const ch = chars[i++];
+    if (ch === '\n' && chars[i] === '\n') {
+      html += '<br><br>'; i++;
+    } else if (ch === '\n') {
+      html += '<br>';
+    } else {
+      html += ch;
+    }
+    el.innerHTML = html;
+    setTimeout(tick, ch === ' ' ? 18 : ch === '.' || ch === ',' ? 60 : 22);
+  }
+  tick();
+}
+
+// ── HEARTS ROW ─────────────────────────────────────────
+(function buildHearts() {
+  const row = document.getElementById('heartRow');
+  const emojis = ['💕','💗','💖','💓','💝','💘','❤️'];
+  for (let i = 0; i < 7; i++) {
+    const span = document.createElement('span');
+    span.className = 'heart-item';
+    span.textContent = emojis[i % emojis.length];
+    span.style.animationDelay = (i * .08) + 's';
+    span.addEventListener('click', function() {
+      this.classList.toggle('popped');
+    });
+    row.appendChild(span);
+  }
+})();
+
+// ── WISHES GRID ──────────────────────────────────────────
+(function buildWishes() {
+  const grid = document.getElementById('wishesGrid');
+  WISHES.forEach((w, i) => {
+    const card = document.createElement('div');
+    card.className = 'wish-card';
+    card.style.animationDelay = (i * .1) + 's';
+    card.innerHTML = `<div class="wish-icon">${w.icon}</div><div class="wish-title">${w.title}</div><div class="wish-text">${w.text}</div>`;
+    grid.appendChild(card);
+  });
+})();
+
+// ── PETALS ──────────────────────────────────────────────
+function spawnPetals() {
+  const container = document.getElementById('petalContainer');
+  setInterval(() => {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = PETALS[Math.floor(Math.random() * PETALS.length)];
+    p.style.cssText = `left:${Math.random()*100}%;animation-duration:${5+Math.random()*6}s;animation-delay:0s;font-size:${.8+Math.random()*.8}rem`;
+    container.appendChild(p);
+    setTimeout(() => p.remove(), 12000);
+  }, 600);
+}
+
+// ── SPARKLE ON TAP ──────────────────────────────────────
+document.addEventListener('click', function(e) {
+  const sparks = ['💗','✨','🌸','💕','⭐'];
+  for (let i = 0; i < 4; i++) {
+    const s = document.createElement('div');
+    s.className = 'sparkle-burst';
+    s.textContent = sparks[Math.floor(Math.random() * sparks.length)];
+    const angle = (Math.PI * 2 / 4) * i;
+    const dist = 30 + Math.random() * 30;
+    s.style.cssText = `left:${e.clientX + Math.cos(angle)*dist}px;top:${e.clientY + Math.sin(angle)*dist}px`;
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 800);
+  }
+});
+
+// ── SCROLL FADE IN ──────────────────────────────────────
+function checkFade() {
+  document.querySelectorAll('.fade-in-up').forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight - 40) {
+      el.classList.add('visible');
+    }
+  });
+}
+
+// ── SPLASH OPEN ─────────────────────────────────────────
+document.getElementById('splash').addEventListener('click', function() {
+  this.classList.add('hide');
+  const main = document.getElementById('main');
+  main.classList.add('show');
+  spawnPetals();
+  setTimeout(() => {
+    checkFade();
+    typeMessage(document.getElementById('letterText'), MESSAGE);
+  }, 400);
+});
+
+window.addEventListener('scroll', checkFade);
+</script>
+</body>
+</html>
